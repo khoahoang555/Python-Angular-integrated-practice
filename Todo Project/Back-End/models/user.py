@@ -8,4 +8,4 @@ class UserModel(db.Model):
     password = db.Column(db.String(256), nullable = False)
     age = db.Column(db.Integer, nullable = False)
     gender = db.Column(db.Boolean, nullable = False)
-    fullname = db.Column(db.String(80), nullable = False)
+    fullName = db.Column(db.String(80), nullable = False)

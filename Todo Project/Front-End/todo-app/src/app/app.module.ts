@@ -10,6 +10,8 @@ import { PageLoginComponent } from './page-login/page-login.component';
 import { RouterModule, Routes } from '@angular/router';
 import { MenuFormUserComponent } from './menu-form-user/menu-form-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { MenuNotificationStatusComponent } from './menu-notification-status/menu-notification-status.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -27,12 +29,14 @@ const routes: Routes = [
     MenuListUserComponent,
     PageIndexComponent,
     PageLoginComponent,
-    MenuFormUserComponent
+    MenuFormUserComponent,
+    MenuNotificationStatusComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     RouterModule.forRoot(routes)
   ],
   providers: [],

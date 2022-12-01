@@ -1,36 +1,100 @@
 <app-menu-breadcrumb [namePath]="'Thông tin người dùng'"></app-menu-breadcrumb>
 
+<app-menu-notification-status></app-menu-notification-status>
+
 <form class="mt-3 border border-secondary">
-    <form #f="ngForm" class="row g-3 p-custom" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm" class="row g-3 p-custom" (ngSubmit)="onSubmit()">
         <div class="col-md-6">
           <label for="inputEmail4" class="form-label">Họ và tên</label>
-          <input type="text" class="form-control">
+          <input type="text" class="form-control"
+            [ngClass]="!loginForm.controls['fullName'].valid && loginForm.controls['fullName'].touched ? 'is-invalid':''"
+            formControlName="fullName" />
+          <div class="invalid-feedback"
+            *ngIf="loginForm.controls['fullName'].hasError('required') && (loginForm.controls['fullName'].touched)">
+            Full Name is required
+          </div>
+          <div class="invalid-feedback"
+            *ngIf="loginForm.controls['fullName'].hasError('maxlength') && loginForm.controls['fullName'].touched">
+            Full Name has only max length 45 characters
+          </div>
+          <div class="invalid-feedback"
+            *ngIf="loginForm.controls['fullName'].hasError('minlength') && loginForm.controls['fullName'].touched">
+            Full Name must be at least 5 characters
+          </div>
         </div>
         <div class="col-md-6">
-          <label for="inputPassword4" class="form-label">Email</label>
-          <input type="email" class="form-control">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control"
+            [ngClass]="!loginForm.controls['email'].valid && loginForm.controls['email'].touched ? 'is-invalid':''"
+            formControlName="email" />
+          <div class="invalid-feedback"
+            *ngIf="loginForm.controls['email'].hasError('required') && loginForm.controls['email'].touched">
+            Email is required!
+          </div>
+          <div class="invalid-feedback"
+            *ngIf="loginForm.controls['email'].hasError('email') && loginForm.controls['email'].touched">
+            Email is error pattern!
+          </div>
         </div>
         <div class="col-12">
-          <label for="inputAddress" class="form-label">Mật khẩu</label>
-          <input type="password" class="form-control">
+          <label class="form-label">Mật khẩu</label>
+          <input type="password" class="form-control"
+            [ngClass]="!loginForm.controls['password'].valid && loginForm.controls['password'].touched ? 'is-invalid':''"
+            formControlName="password" />
+          <div class="invalid-feedback"
+            *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
+            Password is required
+          </div>
+          <div class="invalid-feedback"
+            *ngIf="loginForm.controls['password'].hasError('maxlength') && loginForm.controls['password'].touched">
+            Password has only max length 25 characters
+          </div>
+          <div class="invalid-feedback"
+            *ngIf="loginForm.controls['password'].hasError('minlength') && loginForm.controls['password'].touched">
+            Password must be at least 7 characters
+          </div>
         </div>
         <div class="col-12">
-          <label for="inputAddress2" class="form-label">Xác nhận mật khẩu</label>
-          <input type="password" class="form-control">
+          <label class="form-label">Xác nhận mật khẩu</label>
+          <input type="password" class="form-control"
+            [ngClass]="(!loginForm.controls['confirmPassword'].valid && loginForm.controls['confirmPassword'].touched) || passwordMatchError ? 'is-invalid':''"
+            formControlName="confirmPassword"/>
+          <div class="invalid-feedback"
+            *ngIf="loginForm.controls['confirmPassword'].hasError('required') && loginForm.controls['confirmPassword'].touched">
+            Confirm password is required
+          </div>
+          <div class="invalid-feedback"
+            *ngIf="loginForm.controls['confirmPassword'].valid && passwordMatchError">
+            Confirm Password don't match
+          </div>
         </div>
         <div class="col-md-6">
-          <label for="inputState" class="form-label">Giới tính</label>
-          <select id="inputState" class="form-select">
-            <option selected>Nam</option>
-            <option>Nữ</option>
+          <label class="form-label">Giới tính</label>
+          <select id="inputState" class="form-select" formControlName="gender">
+            <option selected value="1">Nam</option>
+            <option value="0">Nữ</option>
           </select>
         </div>
         <div class="col-6">
-            <label for="inputAddress2" class="form-label">Tuổi</label>
-            <input type="number" class="form-control">
+            <label class="form-label">Tuổi</label>
+            <input type="number" class="form-control" min="0"
+              [ngClass]="!loginForm.controls['age'].valid && loginForm.controls['age'].touched ? 'is-invalid':''"
+              formControlName="age">
+            <div class="invalid-feedback"
+              *ngIf="loginForm.controls['age'].hasError('required') && loginForm.controls['age'].touched">
+              Age is required!
+            </div>
+            <div class="invalid-feedback"
+              *ngIf="loginForm.controls['age'].hasError('min') && loginForm.controls['age'].touched">
+              Age must greater than 0!
+            </div>
         </div>
         <div class="col-12">
-          <button type="submit" class="btn btn-primary">Tạo mới</button>
+          <button type="submit" class="btn btn-primary me-2"
+            [ngClass]="!loginForm.valid ? 'disabled': ''"
+          >Tạo mới</button>
+          <button type="button" (click)="onClear()" class="btn btn-info"
+          >Reset</button>
         </div>
       </form>
 </form>
